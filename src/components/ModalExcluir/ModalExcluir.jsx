@@ -1,3 +1,5 @@
+import "./ModalExcluir.scss";
+
 export default function ModalExcluir(props) {
 
     const handleExclude = async () => {
