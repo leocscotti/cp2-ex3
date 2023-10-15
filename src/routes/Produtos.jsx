@@ -3,7 +3,7 @@ import { RiDeleteBin2Fill as Excluir } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import ModalInserir from "../components/ModalInserir/ModalInserir";
 import ModalExcluir from "../components/ModalExcluir/ModalExcluir";
-//import ModalEditar from "../components/ModalEditar/ModalEditar";
+import ModalEditar from "../components/ModalEditarProdutos/ModalEditarProdutos";
 import "./Produtos.scss"
 
 export default function Produtos() {
