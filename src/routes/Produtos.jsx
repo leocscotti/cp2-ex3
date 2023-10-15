@@ -1,22 +1,22 @@
-import { Link } from "react-router-dom";
+
 import {GrFormEdit as Editar} from "react-icons/gr";
 import {RiDeleteBin2Fill as Excluir} from "react-icons/ri";
-import style from "./Produtos.module.css";
 import { useEffect, useState } from "react";
 import ModalInserir from "../components/ModalInserir/ModalInserir";
+import ModalExcluir from "../components/ModalExcluir/ModalExcluir";
 import "./Produtos.scss";
 
 export default function Produtos() {
   document.title = "Produtos";
 
-  const [listaProdutoExterna, setListaProdutoExterna] = useState([{}]);
+  const [listaProdutoExterna, setListaProdutoExterna] = useState([]);
 
   useEffect(()=>{
     fetch("http://localhost:5000/produtos",{
       method: "GET",
       headers:{
         "Content-Type":"application/json"
-      }
+      },
     })
     .then((response)=> response.json())
     .then((data) => {
@@ -26,12 +26,26 @@ export default function Produtos() {
   },[]);
 
   const [open, setOpen] = useState(false);
+  const [openExcluir, setOpenExcluir] = useState(false);
+
+
+  const handleOpenExcluir = (produto) => {
+    setProdutoSelecionado(produto); 
+    setOpenExcluir(true);
+  };
 
   return ( 
     <div>
       <h1>LISTA DE PRODUTOS</h1>
 
       {open ? <ModalInserir open={open} setOpen={setOpen}/> : "" }
+
+      {openExcluir ? 
+        <ModalExcluir openExcluir={openExcluir}
+          setOpenExcluir={setOpenExcluir}
+          produto={produtoSelecionado}
+        />
+       : ""}
 
       <button onClick={()=> setOpen(true)}>CADASTRAR PRODUTO</button>
 
@@ -53,7 +67,11 @@ export default function Produtos() {
                 <td>{item.nome}</td>
                 <td>{item.desc}</td>
                 <td>{item.valor}</td>
-                <td> <Link to={`/editar/produtos/${item.id}`}><Editar/></Link> | <Link to={`/excluir/produtos/${item.id}`}><Excluir/></Link> </td>
+                <td>
+                <button onClick={() => handleOpenExcluir(item)}>
+                  <Excluir />
+                </button>
+                </td>
             </tr>
           ))
         }
