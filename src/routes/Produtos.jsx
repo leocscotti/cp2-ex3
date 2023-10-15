@@ -1,44 +1,49 @@
-
-import {GrFormEdit as Editar} from "react-icons/gr";
-import {RiDeleteBin2Fill as Excluir} from "react-icons/ri";
+import { GrFormEdit as Editar } from "react-icons/gr";
+import { RiDeleteBin2Fill as Excluir } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import ModalInserir from "../components/ModalInserir/ModalInserir";
 import ModalExcluir from "../components/ModalExcluir/ModalExcluir";
-import "./Produtos.scss";
+//import ModalEditar from "../components/ModalEditar/ModalEditar";
+import "./Produtos.scss"
 
 export default function Produtos() {
   document.title = "Produtos";
 
   const [listaProdutoExterna, setListaProdutoExterna] = useState([]);
-
-  useEffect(()=>{
-    fetch("http://localhost:5000/produtos",{
-      method: "GET",
-      headers:{
-        "Content-Type":"application/json"
-      },
-    })
-    .then((response)=> response.json())
-    .then((data) => {
-      setListaProdutoExterna(data);
-    })
-    .catch(error => console.log(error));
-  },[]);
-
   const [open, setOpen] = useState(false);
   const [openExcluir, setOpenExcluir] = useState(false);
+  const [openEditar, setOpenEditar] = useState(false);
+  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
+  useEffect(() => {
+    fetch("http://localhost:5000/produtos", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setListaProdutoExterna(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const handleOpenEditar = (produto) => {
+    setProdutoSelecionado(produto); 
+    setOpenEditar(true);
+  };
 
   const handleOpenExcluir = (produto) => {
     setProdutoSelecionado(produto); 
     setOpenExcluir(true);
   };
 
-  return ( 
-    <div>
+  return (
+    <div className="Produtos">
       <h1>LISTA DE PRODUTOS</h1>
 
-      {open ? <ModalInserir open={open} setOpen={setOpen}/> : "" }
+      {open ? <ModalInserir open={open} setOpen={setOpen} /> : ""}
 
       {openExcluir ? 
         <ModalExcluir openExcluir={openExcluir}
@@ -47,68 +52,50 @@ export default function Produtos() {
         />
        : ""}
 
-      <button onClick={()=> setOpen(true)}>CADASTRAR PRODUTO</button>
+      {openEditar ? 
+        <ModalEditar
+          openEditar={openEditar}
+          setOpenEditar={setOpenEditar}
+          produto={produtoSelecionado} 
+        />
+       : ""}
 
-      <table className={style.tblEstilo}>
+      <button onClick={() => setOpen(true)}>CADASTRAR</button>
+
+      <table>
         <thead>
-        <tr>
-          <th>ID</th>
-          <th>NOME</th>
-          <th>DESCRIÇÃO</th>
-          <th>PREÇO</th>
-          <th>EDITAR / EXCLUIR</th>       
-        </tr>
+          <tr>
+            <th>ID</th>
+            <th>NOME</th>
+            <th>DESCRIÇÃO</th>
+            <th>PREÇO</th>
+            <th>EDITAR / EXCLUIR</th>
+          </tr>
         </thead>
         <tbody>
-        {
-          listaProdutoExterna.map((item,indice)=>(
-            <tr key={indice} className={style.tblLine}>
-                <td>{item.id}</td>
-                <td>{item.nome}</td>
-                <td>{item.desc}</td>
-                <td>{item.valor}</td>
-                <td>
+          {listaProdutoExterna.map((item, indice) => (
+            <tr key={indice}>
+              <td>{item.id}</td>
+              <td>{item.nome}</td>
+              <td>{item.desc}</td>
+              <td>{item.valor}</td>
+              <td>
+                <button onClick={() => handleOpenEditar(item)}>
+                  <Editar />
+                </button>
                 <button onClick={() => handleOpenExcluir(item)}>
                   <Excluir />
                 </button>
-                </td>
+              </td>
             </tr>
-          ))
-        }
-</tbody>
-<tfoot>
-  <tr>
-    <td colSpan={4}>PRODUTOS LINDOS</td>
-  </tr>
-</tfoot>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan={4}>PRODUTOS LINDOS</td>
+          </tr>
+        </tfoot>
       </table>
     </div>
-  )
+  );
 }
-
-//Exemplo de useEfect
-// useEffect(()=>{
-//   console.log("Este useEffect renderiza sempre! " + counter);
-// });
-
-// const [counter, setCounter] = useState(0);
-
-// const [listaProdutosLocal, setListaProdutosLocal] = useState([{}]);
-
-// useEffect(()=>{
-//   console.log("Este useEffect renderiza apenas uma vez!");
-//   setListaProdutosLocal(ListaProdutos);
-// },[ ]);
-
-// const [counter2, setCounter2] = useState(0)
-
-// useEffect(()=>{
-//   console.log("Este useEffect renderiza sempre que o objeto/variável ou elemento que está sendo monitorado no array de dependências sofra alguma atualização.");
-// },[counter2]);
-
-// <div>
-// <button onClick={()=> setCounter(counter + 1)}>COUNTER - {counter}</button>
-// </div>
-// <div>
-// <button onClick={()=> setCounter2(counter2 + 1)}>COUNTER2 - {counter2}</button>
-// </div>
