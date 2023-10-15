@@ -20,6 +20,8 @@ export default function EditarProdutos() {
       desc: produtoRecuperadoDaListaById[0].desc,
       valor: produtoRecuperadoDaListaById[0].valor
     });
+    
+    const [error, setError] = useState(null);
 
     const handleChange = (event) =>{
         
