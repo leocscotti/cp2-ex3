@@ -11,7 +11,7 @@ const [produto, setProduto] = useState({
   
   const [error, setError] = useState(null);
 
-}
+
 
 useEffect(() => {
     fetch(`http://localhost:5000/produtos/${props.produto.id}`)
@@ -100,4 +100,4 @@ useEffect(() => {
         </div>
       </div>
     );
-  }
+  }}
