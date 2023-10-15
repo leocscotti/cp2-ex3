@@ -1,0 +1,38 @@
+$alinhaMentoAoCentro:0 auto; 
+$textColor:#fff;
+$backColor:#000000;
+$displayPadrao:block;
+
+@mixin estiloParaBtn($borda,$backGround,$colorText){
+    border: $borda;
+    background-color: $backGround;
+    color: $colorText;
+    margin: 0 auto 5% auto;
+    display: $displayPadrao;
+    width: 30%;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    transition: background-color 300ms;
+
+    &:hover{
+        background-color:#aba9b1 ;
+    }
+
+    &:active{
+        background-color:#202022 ;
+    }
+
+}
+
+@mixin estilo($borda,$backGround,$colorText){
+    buttom{
+        border: $borda;
+        background-color: $backGround;
+        color: $colorText;
+    }
+}
+
+div button{
+   @include estiloParaBtn(2px solid #ccc, #3f3e42, $textColor);
+}
