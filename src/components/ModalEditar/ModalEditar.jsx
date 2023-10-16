@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function ModalEditarProdutos(props) {
+export default function ModalEditar(props) {
 
 const [produto, setProduto] = useState({
     id: "",
