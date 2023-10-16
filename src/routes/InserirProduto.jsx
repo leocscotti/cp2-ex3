@@ -31,12 +31,13 @@ export default function InserirProduto() {
         // }else if(name == "valor"){
         //     setProduto({"valor":value});
         // }
-    }
+    } 
 
     const handleSubmit = (e)=>{
         e.preventDefault();
         ListaProdutos.push(produto);
         navigate("/produtos");
+
     }
 
 
@@ -50,7 +51,7 @@ export default function InserirProduto() {
               <legend>PRODUTO</legend>
               <div>
                 <label htmlFor="idNome">Nome do Produto:</label>
-                <input type="text" name="nome" id="idNome" value={produto.nome}onChange={handleChange} />
+                <input type="text" name="nome" id="idNome" value={produto.nome}onChange={handleChange}/>
               </div>
               <div>
                 <label htmlFor="idDesc">Descrição do Produto:</label>
